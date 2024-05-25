@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# cmake --version
+# cmake version 3.22.1
+
 CURRENT_DIR=$(pwd)
 PREBUILT_DIR=${CURRENT_DIR}/prebuilt_dir
 export PATH=${PREBUILT_DIR}:$PATH
@@ -30,6 +33,18 @@ function build_glogs()
     echo "BUILD glog COMPLETE" 
 }
 
+function build_gtest()
+{
+    cd ${CURRENT_DIR}/googletest && cmake -S . -DBUILD_GMOCK=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+
+    if [ $? -ne 0 ];then
+        echo "build googletest failed"
+        exit 
+    fi
+
+    echo "BUILD googletest COMPLETE" 
+}
+
 function build_protobuf()
 {
     # git submodule update --init --recursive
@@ -47,7 +62,8 @@ function build_protobuf()
 function do_build()
 {
     # build_gflags
-    build_glogs
+    # build_glogs
+    build_gtest
     # build_protobuf
 }
 
