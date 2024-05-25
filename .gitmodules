@@ -1,3 +1,6 @@
 [submodule "incubator-brpc"]
 	path = incubator-brpc
 	url = https://github.com/apache/brpc.git
+[submodule "gflags"]
+	path = gflags
+	url = https://github.com/gflags/gflags.git
