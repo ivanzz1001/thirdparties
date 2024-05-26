@@ -16,3 +16,6 @@
 [submodule "leveldb"]
 	path = leveldb
 	url = https://github.com/google/leveldb.git
+[submodule "jsoncpp"]
+	path = jsoncpp
+	url = https://github.com/open-source-parsers/jsoncpp.git
