@@ -168,6 +168,19 @@ v1.9
 </pre>
 
 
+8) jsoncpp
+<pre>
+# git submodule add https://github.com/open-source-parsers/jsoncpp.git
+# cd jsoncpp
+# git tag
+# git checkout tags/1.9.5
+# cd ..
+# git add .gitmodules ./jsoncpp
+# git commit -m "add jsoncpp v1.9.5"
+# git push
+</pre>
+
+
 
 
 
