@@ -59,12 +59,58 @@ function build_protobuf()
     echo "BUILD protobuf COMPLETED"
 }
 
+
+# leveldb会把gtest/gmock/benchmark都编译进来
+function build_leveldb()
+{
+    cd ${CURRENT_DIR}/leveldb && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+
+    if [ $? -ne 0 ]; then
+	    echo "build leveldb failed"
+	    exit
+    fi
+    
+    echo "BUILD leveldb COMPLETED"
+}
+
+# brpc目前还没兼容 protobuf >= 22
+# https://github.com/apache/brpc/issues/2350
+function build_brpc()
+{
+    BRPC_PREFIX_PATH=${PREBUILT_DIR}\;${PREBUILT_DIR}/protobuf
+    cd ${CURRENT_DIR}/incubator-brpc && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_SNAPPY=ON -DCMAKE_PREFIX_PATH=${BRPC_PREFIX_PATH} -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+
+    if [ $? -ne 0 ]; then
+	    echo "build brpc failed"
+	    exit
+    fi
+    
+    echo "BUILD brpc COMPLETED"
+}
+
+
+
+function build_jsoncpp()
+{
+    cd ${CURRENT_DIR}/jsoncpp && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+
+    if [ $? -ne 0 ]; then
+	    echo "build jsoncpp failed"
+	    exit
+    fi
+    
+    echo "BUILD jsoncpp COMPLETED"
+}
+
 function do_build()
 {
     # build_gflags
     # build_glogs
-    build_gtest
+    # build_gtest
     # build_protobuf
+    # build_leveldb
+    # build_brpc
+    build_jsoncpp
 }
 
 function do_clean()
