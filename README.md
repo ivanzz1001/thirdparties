@@ -114,16 +114,57 @@ v0.7.0-rc1
 
 <pre>
 # git submodule deinit -f protobuf
-# git submodule add  -b master -f https://github.com/protocolbuffers/protobuf.git     
+# git rm --cached protobuf
+# git submodule add https://github.com/protocolbuffers/protobuf.git  
+# git add .gitmodules ./protobuf
+# git commit -m "add protobuf main"
+# git push
 </pre>
 
 
 
+6) leveldb
+<pre>
+# git submodule add https://github.com/google/leveldb.git
+# cd leveldb
+# git tag
+1.21
+1.22
+1.23
+v1.10
+v1.11
+v1.12
+v1.13
+v1.14
+v1.15
+v1.16
+v1.17
+v1.18
+v1.19
+v1.20
+v1.3
+v1.4
+v1.5
+v1.6
+v1.7
+v1.8
+v1.9
+# git checkout tags/v21.8
+# cd ..
+# git add .gitmodules ./leveldb
+# git commit -m "add leveldb v1.23"
+# git push
+</pre>
 
-5) brpc
+
+
+7) brpc
 
 <pre>
 # git submodule add https://github.com/apache/brpc.git incubator-brpc
+# git add .gitmodules ./incubator-brpc
+# git commit -m "add brpc"
+# git push
 </pre>
 
 
