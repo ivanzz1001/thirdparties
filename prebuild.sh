@@ -1,10 +1,49 @@
 #!/bin/bash
 
+# cmake --version
+# cmake version 3.22.1
+
 CURRENT_DIR=$(pwd)
 PREBUILT_DIR=${CURRENT_DIR}/prebuilt_dir
 export PATH=${PREBUILT_DIR}:$PATH
 nproc=2
 
+
+function build_gflags()
+{
+    cd ${CURRENT_DIR}/gflags && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install 
+
+    if [ $? -ne 0 ];then
+        echo "build gflags failed"
+        exit 
+    fi
+
+    echo "BUILD gflags COMPLETE"
+}
+
+function build_glogs()
+{
+    cd ${CURRENT_DIR}/glog && cmake -S . -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_GFLAGS=OFF -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+
+    if [ $? -ne 0 ];then
+        echo "build glog failed"
+        exit 
+    fi
+
+    echo "BUILD glog COMPLETE" 
+}
+
+function build_gtest()
+{
+    cd ${CURRENT_DIR}/googletest && cmake -S . -DBUILD_GMOCK=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+
+    if [ $? -ne 0 ];then
+        echo "build googletest failed"
+        exit 
+    fi
+
+    echo "BUILD googletest COMPLETE" 
+}
 
 function build_protobuf()
 {
@@ -13,16 +52,19 @@ function build_protobuf()
     cd ${CURRENT_DIR}/protobuf && cmake -G "Unix Makefiles"  -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${PROTOBUF_INSTALL_PATH} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
 
     if [ $? -ne 0 ]; then
-	    echo "build tutorial failed"
+	    echo "build protobuf failed"
 	    exit
     fi
     
-    echo "BUILD tutorial COMPLETED"
+    echo "BUILD protobuf COMPLETED"
 }
 
 function do_build()
 {
-    build_protobuf
+    # build_gflags
+    # build_glogs
+    build_gtest
+    # build_protobuf
 }
 
 function do_clean()
