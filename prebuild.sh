@@ -88,10 +88,19 @@ function build_brpc()
     echo "BUILD brpc COMPLETED"
 }
 
-# function build_jsoncpp()
-# {
 
-# }
+
+function build_jsoncpp()
+{
+    cd ${CURRENT_DIR}/jsoncpp && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+
+    if [ $? -ne 0 ]; then
+	    echo "build jsoncpp failed"
+	    exit
+    fi
+    
+    echo "BUILD jsoncpp COMPLETED"
+}
 
 function do_build()
 {
@@ -100,7 +109,8 @@ function do_build()
     # build_gtest
     # build_protobuf
     # build_leveldb
-    build_brpc
+    # build_brpc
+    build_jsoncpp
 }
 
 function do_clean()
