@@ -180,7 +180,52 @@ v1.9
 # git push
 </pre>
 
+9）rocksdb
+<pre>
+# git submodule add https://github.com/facebook/rocksdb.git 
+# cd rocksdb
+# git tag
+1.5.7.fb
+1.5.8.1.fb
+1.5.8.2.fb
+1.5.8.fb
+1.5.9.1.fb
+1.5.9.2.fb
+1.5.9.fb
+2.0.fb
+2.1.fb
+2.2.fb
+2.3.fb
+2.4.fb
+2.5.fb
+2.6.fb
+2.7.fb
+2.8.fb
+3.0.fb
+blob_st_lvl-pre
+do-not-use-me2
+rocksdb-3.1
+rocksdb-3.10.1
+rocksdb-3.10.2
+rocksdb-3.11
+rocksdb-3.11.1
+rocksdb-3.11.2
+# git checkout tags/v9.4.0
+# cd ..
+# git add .gitmodules ./rocksdb
+# git commit -m "add rocksdb v9.4.0"
+# git push 
+</pre>
 
-
+需要gtest的话，要使用gtest-1.8.1版本：
+<pre>
+# # git submodule add https://github.com/google/googletest.git
+# cd googletest
+# git checkout tags/v1.8.1
+# cd ..
+# git add  rocksdb-gtest-1.8.1
+# git commit -m "add gtest1.8.1"
+# git push
+</pre>
 
 

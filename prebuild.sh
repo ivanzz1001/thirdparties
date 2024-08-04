@@ -102,15 +102,47 @@ function build_jsoncpp()
     echo "BUILD jsoncpp COMPLETED"
 }
 
+
+# 如果要使用WITH_GTEST，那么需要下载gtest-1.8.1
+# https://github.com/google/googletest/tree/release-1.8.1
+function build_rocksdb_gtest(){
+    ROCKSDB_GTEST_INSTALL=${CURRENT_DIR}/rocksdb-gtest-1.8.1/googletest/prebuilt_dir
+    cd ${CURRENT_DIR}/rocksdb-gtest-1.8.1/googletest && cmake -S . -DBUILD_GMOCK=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${ROCKSDB_GTEST_INSTALL} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+
+    if [ $? -ne 0 ]; then
+	    echo "build rocksdb-gtest failed"
+	    exit
+    fi
+    
+    echo "BUILD rocksdb-gtest COMPLETED"
+}
+
+function build_rocksdb()
+{
+    build_rocksdb_gtest
+
+    ROCKSDB_PREFIX_DIR=${CURRENT_DIR}/rocksdb-gtest-1.8.1/googletest/prebuilt_dir
+    cd ${CURRENT_DIR}/rocksdb && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DROCKSDB_BUILD_SHARED=OFF -DCMAKE_PREFIX_PATH=${ROCKSDB_PREFIX_DIR} -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+ #   cd ${CURRENT_DIR}/rocksdb && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DROCKSDB_BUILD_SHARED=OFF -DWITH_TESTS=OFF -DWITH_BENCHMARK_TOOLS=OFF -DWITH_CORE_TOOLS=OFF -DWITH_TOOLS=OFF -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+
+     if [ $? -ne 0 ]; then
+	    echo "build rocksdb failed"
+	    exit
+    fi
+    
+    echo "BUILD rocksdb COMPLETED"
+}
+
 function do_build()
 {
-    # build_gflags
-    # build_glogs
-    # build_gtest
-    # build_protobuf
-    # build_leveldb
-    # build_brpc
-    build_jsoncpp
+    build_gflags
+#    build_glogs
+#    build_gtest
+#    build_protobuf
+#    build_leveldb
+#    build_brpc
+#    build_jsoncpp
+    build_rocksdb 
 }
 
 function do_clean()
