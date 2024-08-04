@@ -125,7 +125,7 @@ function build_rocksdb()
     cd ${CURRENT_DIR}/rocksdb && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DROCKSDB_BUILD_SHARED=OFF -DCMAKE_PREFIX_PATH=${ROCKSDB_PREFIX_DIR} -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
  #   cd ${CURRENT_DIR}/rocksdb && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DROCKSDB_BUILD_SHARED=OFF -DWITH_TESTS=OFF -DWITH_BENCHMARK_TOOLS=OFF -DWITH_CORE_TOOLS=OFF -DWITH_TOOLS=OFF -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
 
-     if [ $? -ne 0 ]; then
+    if [ $? -ne 0 ]; then
 	    echo "build rocksdb failed"
 	    exit
     fi
@@ -133,20 +133,46 @@ function build_rocksdb()
     echo "BUILD rocksdb COMPLETED"
 }
 
+function build_braft()
+{
+    BRAFT_PREFIX_PATH=${PREBUILT_DIR}\;${PREBUILT_DIR}/protobuf
+    cd ${CURRENT_DIR}/braft && cmake -S . -DBUILD_GMOCK=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_PREFIX_PATH=${BRAFT_PREFIX_PATH} -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+
+    if [ $? -ne 0 ]; then
+	    echo "build braft failed"
+	    exit
+    fi
+    
+    echo "BUILD braft COMPLETED"
+}
+
 function do_build()
 {
-    build_gflags
-#    build_glogs
-#    build_gtest
-#    build_protobuf
-#    build_leveldb
-#    build_brpc
-#    build_jsoncpp
+   build_gflags
+    build_glogs
+    build_gtest
+    build_protobuf
+    build_leveldb
+    build_brpc
+    build_jsoncpp
     build_rocksdb 
+    build_braft 
 }
 
 function do_clean()
 {
+    rm -rf ${CURRENT_DIR}/gflags/build
+    rm -rf ${CURRENT_DIR}/glog/build
+    rm -rf ${CURRENT_DIR}/googletest/build
+    rm -rf ${CURRENT_DIR}/protobuf/build
+    rm -rf ${CURRENT_DIR}/leveldb/build
+    rm -rf ${CURRENT_DIR}/incubator-brpc/build
+    rm -rf ${CURRENT_DIR}/jsoncpp/build
+    rm -rf ${CURRENT_DIR}/rocksdb-gtest-1.8.1/build ${CURRENT_DIR}/rocksdb-gtest-1.8.1/prebuilt_dir
+    rm -rf ${CURRENT_DIR}/rocksdb/build
+    rm -rf ${CURRENT_DIR}/braft/build
+    rm -rf ${CURRENT_DIR}/prebuilt_dir
+
     echo "current do nothing"
 }
 

@@ -25,3 +25,6 @@
 [submodule "rocksdb-gtest-1.8.1"]
 	path = rocksdb-gtest-1.8.1
 	url = https://github.com/google/googletest.git
+[submodule "braft"]
+	path = braft
+	url = https://github.com/baidu/braft.git

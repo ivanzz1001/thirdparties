@@ -230,3 +230,21 @@ rocksdb-3.11.2
 </pre>
 
 
+10) braft
+<pre>
+# git submodule add https://github.com/baidu/braft.git
+# cd braft
+# git tag
+v1.0.0
+v1.0.1
+v1.0.2
+v1.1.0
+v1.1.1
+v1.1.2
+# git checkout v1.1.2
+# cd ..
+# git add .gitmodules
+# git add braft
+# git commit -m "add braft"
+# git push
+</pre>
