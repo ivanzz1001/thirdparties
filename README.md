@@ -219,10 +219,11 @@ rocksdb-3.11.2
 
 需要gtest的话，要使用gtest-1.8.1版本：
 <pre>
-# # git submodule add https://github.com/google/googletest.git
-# cd googletest
-# git checkout tags/v1.8.1
+# git submodule add https://github.com/google/googletest.git rocksdb-gtest-1.8.1
+# cd rocksdb-gtest-1.8.1
+# git checkout release-1.8.1
 # cd ..
+# git add .gitmodules 
 # git add  rocksdb-gtest-1.8.1
 # git commit -m "add gtest1.8.1"
 # git push
