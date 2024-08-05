@@ -6,9 +6,12 @@
 
 ## 1. 检查相应的依赖库是否安装
 - snappy库
-<pre>
+```
 # apt list --installed | grep snappy
-</pre>
+# ldconfig -p | grep snappy
+        libsnappy.so.1 (libc6,x86-64) => /lib/x86_64-linux-gnu/libsnappy.so.1
+        libsnappy.so (libc6,x86-64) => /lib/x86_64-linux-gnu/libsnappy.so
+```
 
 
 

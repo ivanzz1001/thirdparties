@@ -8,10 +8,11 @@ PREBUILT_DIR=${CURRENT_DIR}/prebuilt_dir
 export PATH=${PREBUILT_DIR}:$PATH
 nproc=2
 
-
+# 这里编译gflags时带上CMAKE_CXX_FLAGS="-fPIC"参数，否则后面的BRAFT可能编译不过
+# https://www.cnblogs.com/liyishui2003/p/18004268
 function build_gflags()
 {
-    cd ${CURRENT_DIR}/gflags && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install 
+    cd ${CURRENT_DIR}/gflags && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS="-fPIC" -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install 
 
     if [ $? -ne 0 ];then
         echo "build gflags failed"
@@ -23,7 +24,7 @@ function build_gflags()
 
 function build_glogs()
 {
-    cd ${CURRENT_DIR}/glog && cmake -S . -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_GFLAGS=OFF -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+    cd ${CURRENT_DIR}/glog && cmake -S . -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_GFLAGS=OFF -DWITH_GTEST=OFF -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
 
     if [ $? -ne 0 ];then
         echo "build glog failed"
@@ -45,11 +46,13 @@ function build_gtest()
     echo "BUILD googletest COMPLETE" 
 }
 
+# 这里编译protobuf时带上CMAKE_CXX_FLAGS="-fPIC"参数，否则后面的BRAFT可能编译不过
+# https://www.cnblogs.com/liyishui2003/p/18004268
 function build_protobuf()
 {
     # git submodule update --init --recursive
     PROTOBUF_INSTALL_PATH=${PREBUILT_DIR}/protobuf
-    cd ${CURRENT_DIR}/protobuf && cmake -G "Unix Makefiles"  -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${PROTOBUF_INSTALL_PATH} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+    cd ${CURRENT_DIR}/protobuf && cmake -G "Unix Makefiles"  -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS="-fPIC" -DCMAKE_INSTALL_PREFIX=${PROTOBUF_INSTALL_PATH} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
 
     if [ $? -ne 0 ]; then
 	    echo "build protobuf failed"
@@ -63,7 +66,7 @@ function build_protobuf()
 # leveldb会把gtest/gmock/benchmark都编译进来
 function build_leveldb()
 {
-    cd ${CURRENT_DIR}/leveldb && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+    cd ${CURRENT_DIR}/leveldb && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS="-fPIC" -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
 
     if [ $? -ne 0 ]; then
 	    echo "build leveldb failed"
@@ -136,7 +139,7 @@ function build_rocksdb()
 function build_braft()
 {
     BRAFT_PREFIX_PATH=${PREBUILT_DIR}\;${PREBUILT_DIR}/protobuf
-    cd ${CURRENT_DIR}/braft && cmake -S . -DBUILD_GMOCK=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_PREFIX_PATH=${BRAFT_PREFIX_PATH} -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+    cd ${CURRENT_DIR}/braft && cmake -S . -DBUILD_GMOCK=OFF -DLEVELDB_WITH_SNAPPY=1 -DBRPC_WITH_GLOG=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_PREFIX_PATH=${BRAFT_PREFIX_PATH} -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
 
     if [ $? -ne 0 ]; then
 	    echo "build braft failed"
@@ -146,34 +149,46 @@ function build_braft()
     echo "BUILD braft COMPLETED"
 }
 
+
+function build_spdlog()
+{
+    cd ${CURRENT_DIR}/spdlog && cmake -S . -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
+
+    if [ $? -ne 0 ]; then
+	    echo "build spdlog failed"
+	    exit
+    fi
+    
+    echo "BUILD spdlog COMPLETED"
+}
+
 function do_build()
 {
-   build_gflags
-    build_glogs
-    build_gtest
-    build_protobuf
-    build_leveldb
-    build_brpc
-    build_jsoncpp
-    build_rocksdb 
-    build_braft 
+#    build_gflags
+#    build_glogs
+#    build_gtest
+#    build_protobuf
+#    build_leveldb
+#    build_brpc
+#    build_jsoncpp
+#    build_rocksdb 
+#    build_braft 
+    build_spdlog
 }
 
 function do_clean()
 {
-    rm -rf ${CURRENT_DIR}/gflags/build
-    rm -rf ${CURRENT_DIR}/glog/build
-    rm -rf ${CURRENT_DIR}/googletest/build
-    rm -rf ${CURRENT_DIR}/protobuf/build
-    rm -rf ${CURRENT_DIR}/leveldb/build
-    rm -rf ${CURRENT_DIR}/incubator-brpc/build
-    rm -rf ${CURRENT_DIR}/jsoncpp/build
-    rm -rf ${CURRENT_DIR}/rocksdb-gtest-1.8.1/build ${CURRENT_DIR}/rocksdb-gtest-1.8.1/prebuilt_dir
-    rm -rf ${CURRENT_DIR}/rocksdb/build
-    rm -rf ${CURRENT_DIR}/braft/build
-    rm -rf ${CURRENT_DIR}/prebuilt_dir
-
-    echo "current do nothing"
+    dir_list=(gflags glog googletest protobuf leveldb incubator-brpc jsoncpp rocksdb braft spdlog prebuilt_dir)
+    for dir in ${dir_list[*]};
+    do 
+        rm -rf ${CURRENT_DIR}/${dir}/build
+    done 
+    
+    maked_dir=(rocksdb-gtest-1.8.1/build rocksdb-gtest-1.8.1/prebuilt_dir)
+    for dir in ${maked_dir[*]};
+    do 
+        rm -rf ${CURRENT_DIR}/${dir}
+    done 
 }
 
 if [[ $1 == "clean" ]]; then

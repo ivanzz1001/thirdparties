@@ -28,3 +28,6 @@
 [submodule "braft"]
 	path = braft
 	url = https://github.com/baidu/braft.git
+[submodule "spdlog"]
+	path = spdlog
+	url = https://github.com/gabime/spdlog.git

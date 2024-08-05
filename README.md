@@ -248,3 +248,55 @@ v1.1.2
 # git commit -m "add braft"
 # git push
 </pre>
+
+11）spdlog的编译
+<pre>
+# git submodule add https://github.com/gabime/spdlog.git
+# cd spdlog
+# git tag
+v0.10.0
+v0.11.0
+v0.12.0
+v0.13.0
+v0.14.0
+v0.16.0
+v0.16.1
+v0.16.2
+v0.16.3
+v0.17.0
+v0.9.0
+v1.0.0
+v1.1.0
+v1.10.0
+v1.11.0
+v1.12.0
+v1.13.0
+v1.14.0
+v1.14.1
+v1.2.0
+v1.2.1
+v1.3.0
+v1.3.1
+v1.4.0
+v1.4.1
+v1.4.2
+v1.5.0
+v1.6.0
+v1.6.1
+v1.7.0
+v1.8.0
+v1.8.1
+v1.8.2
+v1.8.3
+v1.8.4
+v1.8.5
+v1.9.0
+v1.9.1
+v1.9.2
+# git checkout v1.14.1
+# cd ..
+# git add .gitmodules
+# git add spdlog
+# git commit -m "add spdlog"
+# git push
+</pre>
