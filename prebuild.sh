@@ -162,6 +162,36 @@ function build_spdlog()
     echo "BUILD spdlog COMPLETED"
 }
 
+# 这里我们的编译机是64位系统，编译32位会报错
+function build_libaco()
+{
+    cd ${CURRENT_DIR}/libaco && mkdir output && bash make.sh -o no-valgrind -o no-m32
+    if [ $? -ne 0 ]; then
+	    echo "build libaco failed"
+	    exit
+    fi
+    
+    echo "BUILD libaco COMPLETED"
+}
+
+function build_isal()
+{
+    cd ${CURRENT_DIR}/erasure-code/isal && make -f Makefile.unx
+    if [ $? -ne 0 ]; then
+	    echo "build isal failed"
+	    exit
+    fi
+    
+    echo "BUILD isal COMPLETED"
+}
+
+
+# 编译jerasure需要 autoconf 2.65以上
+function build_jerasure()
+{
+
+}
+
 function do_build()
 {
 #    build_gflags
@@ -173,22 +203,25 @@ function do_build()
 #    build_jsoncpp
 #    build_rocksdb 
 #    build_braft 
-    build_spdlog
+#    build_spdlog
+#    build_libaco
 }
 
 function do_clean()
 {
-    dir_list=(gflags glog googletest protobuf leveldb incubator-brpc jsoncpp rocksdb braft spdlog prebuilt_dir)
-    for dir in ${dir_list[*]};
+    dir_list=(gflags glog googletest protobuf leveldb incubator-brpc jsoncpp rocksdb braft spdlog)
+    for dir in ${dir_list[*]}
     do 
         rm -rf ${CURRENT_DIR}/${dir}/build
     done 
     
-    maked_dir=(rocksdb-gtest-1.8.1/build rocksdb-gtest-1.8.1/prebuilt_dir)
-    for dir in ${maked_dir[*]};
+    maked_dir=(rocksdb-gtest-1.8.1/build rocksdb-gtest-1.8.1/prebuilt_dir libaco/output)
+    for dir in ${maked_dir[*]}
     do 
         rm -rf ${CURRENT_DIR}/${dir}
     done 
+
+    rm -rf ${PREBUILT_DIR}
 }
 
 if [[ $1 == "clean" ]]; then

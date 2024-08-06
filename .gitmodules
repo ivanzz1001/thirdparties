@@ -31,3 +31,12 @@
 [submodule "spdlog"]
 	path = spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "libaco"]
+	path = libaco
+	url = https://github.com/hnes/libaco.git
+[submodule "erasure-code/isal"]
+	path = erasure-code/isal
+	url = https://github.com/intel/isa-l.git
+[submodule "erasure-code/jerasure/jerasure"]
+	path = erasure-code/jerasure/jerasure
+	url = https://github.com/ceph/jerasure.git
