@@ -11,6 +11,7 @@
 
 - [Github personal token设置](https://github.com/settings/tokens)
 
+- [优雅的删除子模块](https://www.jianshu.com/p/ed0cb6c75e25)
 
 ## 1. 如何拉取本仓库
 <pre>
@@ -298,5 +299,104 @@ v1.9.2
 # git add .gitmodules
 # git add spdlog
 # git commit -m "add spdlog"
+# git push
+</pre>
+
+12) libaco
+<pre>
+# git submodule add https://github.com/hnes/libaco.git
+# cd libaco
+# git tag
+v1.0
+v1.1
+v1.2.0
+v1.2.1
+v1.2.2
+v1.2.3
+v1.2.4
+# git checkout v1.2.4
+# cd ..
+# git add .gitmodules
+# git add libaco
+# git commit -m "add libaco"
+# git push
+</pre>
+
+13) erasure-code/isal
+<pre>
+# git submodule add https://github.com/intel/isa-l.git erasure-code/isal
+# cd erasure-code/isal
+# git tag
+v2.14.1
+v2.15.0
+v2.16.0
+v2.17.0
+v2.18.0
+v2.19.0
+v2.20.0
+v2.21.0
+v2.22.0
+v2.23.0
+v2.24.0
+v2.25.0
+v2.26.0
+v2.27.0
+v2.28.0
+v2.29.0
+v2.30.0
+v2.31.0
+# git checkout v2.31.0
+# cd ../..
+# git add .gitmodules
+# git add erasure-code/isal
+# git commit -m "add erasure-code/isal"
+# git push
+</pre>
+
+
+14) erasure-code/jerasure
+<pre>
+# git submodule deinit -f erasure-code/jerasure/jerasure
+# git rm --cached erasure-code/jerasure/jerasure
+# rm -rf erasure-code/jerasure
+# rm -rf .git/modules/erasure-code/jerasure
+ （记得编辑.git/config）
+# 
+# git submodule add https://github.com/ceph/jerasure.git erasure-code/jerasure/jerasure
+# cd erasure-code/jerasure/jerasure/
+# git tag
+v0.9.10
+v1.0
+v1.0-rc1
+v1.0-rc2
+v1.0-rc3
+v1.0.1
+v1.0.3
+v1.0.4
+v1.0.5
+v1.0.6
+v1.0.7
+v1.0.8
+v1.0.9
+v1.1.0
+v1.1.1
+# git checkout v1.1.1
+# cd ../../..
+# git add .gitmodules
+# git add erasure-code/jerasure/jerasure
+# git commit -m "add erasure-code/jerasure/jerasure"
+# git push
+</pre>
+
+15) erasure-code/gf-complete
+编译jerasure之前需要先安装gf-complete:
+<pre>
+# git submodule add https://github.com/ceph/gf-complete.git erasure-code/jerasure/gf-complete
+# cd erasure-code/jerasure/gf-complete/
+# git tag
+# cd ../../..
+# git add .gitmodules
+# git add erasure-code/jerasure/gf-complete
+# git commit -m "add erasure-code/jerasure/gf-complete"
 # git push
 </pre>

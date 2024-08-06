@@ -40,3 +40,9 @@
 [submodule "erasure-code/jerasure/jerasure"]
 	path = erasure-code/jerasure/jerasure
 	url = https://github.com/ceph/jerasure.git
+[submodule "erausre-code/jerasure/gf-complete"]
+	path = erausre-code/jerasure/gf-complete
+	url = https://github.com/ceph/gf-complete.git
+[submodule "erasure-code/jerasure/gf-complete"]
+	path = erasure-code/jerasure/gf-complete
+	url = https://github.com/ceph/gf-complete.git

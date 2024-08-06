@@ -185,11 +185,33 @@ function build_isal()
     echo "BUILD isal COMPLETED"
 }
 
+function build_gfcomplete()
+{
+    cd ${CURRENT_DIR}/erasure-code/jerasure/gf-complete && ./autogen.sh && ./configure --prefix=${PREBUILT_DIR} && make && make install
+    if [ $? -ne 0 ]; then
+	    echo "build jerasure/gf-complete failed"
+	    exit
+    fi
+    
+    echo "BUILD gf-complete COMPLETED"
+}
 
 # 编译jerasure需要 autoconf 2.65以上
+# 编译jerasure需要先编译gf-complete
 function build_jerasure()
 {
-
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${PREBUILT_DIR}/lib
+    export LDFLAGS="-L${PREBUILT_DIR}/lib"
+    export CFLAGS="-I${PREBUILT_DIR}/include"
+    echo $LDFLAGS
+    echo $CFLAGS 
+    cd ${CURRENT_DIR}/erasure-code/jerasure/jerasure && autoreconf --force --install && ./configure --prefix=${PREBUILT_DIR} && make && make install
+    if [ $? -ne 0 ]; then
+	    echo "build jerasure failed"
+	    exit
+    fi
+    
+    echo "BUILD jerasure COMPLETED"
 }
 
 function do_build()
@@ -205,6 +227,8 @@ function do_build()
 #    build_braft 
 #    build_spdlog
 #    build_libaco
+#    build_gfcomplete
+    build_jerasure
 }
 
 function do_clean()
