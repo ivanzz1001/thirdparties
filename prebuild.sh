@@ -216,18 +216,18 @@ function build_jerasure()
 
 function do_build()
 {
-#    build_gflags
-#    build_glogs
-#    build_gtest
-#    build_protobuf
-#    build_leveldb
-#    build_brpc
-#    build_jsoncpp
-#    build_rocksdb 
-#    build_braft 
-#    build_spdlog
-#    build_libaco
-#    build_gfcomplete
+    build_gflags
+    build_glogs
+    build_gtest
+    build_protobuf
+    build_leveldb
+    build_brpc
+    build_jsoncpp
+    build_rocksdb 
+    build_braft 
+    build_spdlog
+    build_libaco
+    build_gfcomplete
     build_jerasure
 }
 
