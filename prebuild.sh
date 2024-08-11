@@ -64,6 +64,7 @@ function build_protobuf()
 
 
 # leveldb会把gtest/gmock/benchmark都编译进来
+# 参看：https://blog.csdn.net/10km/article/details/133125114
 function build_leveldb()
 {
     cd ${CURRENT_DIR}/leveldb && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS="-fPIC" -DCMAKE_INSTALL_PREFIX=${PREBUILT_DIR} -B build && cmake --build build -j ${nproc} && cmake --build build --target install
