@@ -121,6 +121,7 @@ v0.7.0-rc1
 # git commit -m "add protobuf main"
 # git push
 </pre>
+>ps: 这里protobuf版本号为v21.8
 
 
 
