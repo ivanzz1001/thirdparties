@@ -1,0 +1,16 @@
+# libev的编译
+
+参看：
+- [libev github官网](https://github.com/enki/libev)
+
+>ps: 看起来github上的比较老旧
+
+- [libev homepage](http://software.schmorp.de/pkg/libev) 
+
+>ps: 可能需要翻墙
+
+- [libev 最新下载](http://fra.de.distfiles.macports.org/libev/)
+
+- [libev的编译&安装&使用](https://zhuanlan.zhihu.com/p/626826013)
+
+## libenv的编译

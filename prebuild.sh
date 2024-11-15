@@ -215,21 +215,33 @@ function build_jerasure()
     echo "BUILD jerasure COMPLETED"
 }
 
+function build_libev()
+{
+    cd cd ${CURRENT_DIR}/libev-4.33 && ./configure --prefix=${PREBUILT_DIR} && make && make install
+    if [ $? -ne 0 ]; then
+	    echo "build libev failed"
+	    exit
+    fi
+    
+    echo "BUILD libev COMPLETED"
+}
+
 function do_build()
 {
-    build_gflags
-    build_glogs
-    build_gtest
-    build_protobuf
-    build_leveldb
-    build_brpc
-    build_jsoncpp
-    build_rocksdb 
-    build_braft 
-    build_spdlog
-    build_libaco
-    build_gfcomplete
-    build_jerasure
+    #build_gflags
+    #build_glogs
+    #build_gtest
+    #build_protobuf
+    #build_leveldb
+    #build_brpc
+    #build_jsoncpp
+    #build_rocksdb 
+    #build_braft 
+    #build_spdlog
+    #build_libaco
+    #build_gfcomplete
+    #build_jerasure
+    build_libev
 }
 
 function do_clean()
