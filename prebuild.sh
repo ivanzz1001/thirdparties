@@ -215,9 +215,10 @@ function build_jerasure()
     echo "BUILD jerasure COMPLETED"
 }
 
+# 参看https://zhuanlan.zhihu.com/p/626826013
 function build_libev()
 {
-    cd cd ${CURRENT_DIR}/libev-4.33 && ./configure --prefix=${PREBUILT_DIR} && make && make install
+    cd ${CURRENT_DIR}/libev-4.33 && ./configure --prefix=${PREBUILT_DIR} && make && make install
     if [ $? -ne 0 ]; then
 	    echo "build libev failed"
 	    exit
@@ -256,6 +257,12 @@ function do_clean()
     for dir in ${maked_dir[*]}
     do 
         rm -rf ${CURRENT_DIR}/${dir}
+    done 
+
+    clean_dir=(erasure-code/isal erasure-code/jerasure/gf-complete erasure-code/jerasure/jerasure libev-4.33 )
+    for dir in ${clean_dir[*]}
+    do 
+        cd ${CURRENT_DIR}/${dir} && make clean
     done 
 
     rm -rf ${PREBUILT_DIR}
