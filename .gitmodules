@@ -46,3 +46,6 @@
 [submodule "erasure-code/jerasure/gf-complete"]
 	path = erasure-code/jerasure/gf-complete
 	url = https://github.com/ceph/gf-complete.git
+[submodule "libev"]
+	path = libev
+	url = https://github.com/enki/libev.git
