@@ -404,6 +404,13 @@ v1.1.1
 
 
 16） libev
+github上的libev似乎比较老旧，我们可以到此下载最新：http://fra.de.distfiles.macports.org/libev/
 <pre>
-# git submodule add https://github.com/enki/libev.git 
-</pre>
+# wget http://fra.de.distfiles.macports.org/libev/libev-4.33.tar.gz
+# tar -zxvf libev-4.33.tar.gz
+# rm -rf libev-4.33.tar.gz
+# cd libev-4.33/
+# git add ./libev-4.33
+# git commit -m "add libev" 
+# git push
+<pre>
